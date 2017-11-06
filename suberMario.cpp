@@ -4,9 +4,21 @@
 #include <stdio.h>
 #include <string>
 
+//Key press surfaces constants
+enum KeyPressSurfaces
+{
+    KEY_PRESS_SURFACE_DEFAULT,
+    KEY_PRESS_SURFACE_UP,
+    KEY_PRESS_SURFACE_DOWN,
+    KEY_PRESS_SURFACE_LEFT,
+    KEY_PRESS_SURFACE_RIGHT,
+    KEY_PRESS_SURFACE_TOTAL
+};
+
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+int CLIP_X = 0;
 
 //Texture wrapper class
 class LTexture
@@ -208,6 +220,16 @@ bool init()
     return success;
 }
 
+void setSpriteClip(int x)
+{
+    //Set sprite
+    gSpriteClip.x =   x;
+    gSpriteClip.y =   0;
+    gSpriteClip.w = 640;
+    gSpriteClip.h = 480;
+
+}
+
 bool loadMedia()
 {
     //Loading success flag
@@ -219,14 +241,7 @@ bool loadMedia()
         printf( "Failed to load sprite sheet texture!\n" );
         success = false;
     }
-    else
-    {
-        //Set sprite
-        gSpriteClip.x =   0;
-        gSpriteClip.y =   0;
-        gSpriteClip.w = 640;
-        gSpriteClip.h = 480;
-    }
+    setSpriteClip(CLIP_X);
     return success;
 }
 
@@ -245,6 +260,8 @@ void close()
     IMG_Quit();
     SDL_Quit();
 }
+
+bool isgoingright = false;
 
 int main( int argc, char* args[] )
 {
@@ -272,20 +289,38 @@ int main( int argc, char* args[] )
             while( !quit )
             {
                 //Handle events on queue
-                while( SDL_PollEvent( &e ) != 0 )
-                {
+                while( SDL_PollEvent( &e ) != 0 ) {
                     //User requests quit
-                    if( e.type == SDL_QUIT )
-                    {
+                    if (e.type == SDL_QUIT) {
                         quit = true;
+                    }
+                        //User presses a key
+                    else if (e.type == SDL_KEYDOWN) {
+                        //Select surfaces based on key press
+                        switch (e.key.keysym.sym) {
+                            case SDLK_RIGHT:
+                                isgoingright=true;
+                                break;
+                        }
+                    } else if (e.type == SDL_KEYUP) {
+                        //Select surfaces based on key press
+                        switch (e.key.keysym.sym) {
+                            case SDLK_RIGHT:
+                                isgoingright=false;
+                                break;
+                        }
                     }
                 }
 
+                if(isgoingright) {
+                    CLIP_X += 1;
+                    setSpriteClip(CLIP_X);
+                }
                 //Clear screen
                 SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( gRenderer );
 
-                //Render top left sprite
+                //Render sprite
                 gSpriteSheetTexture.render( 0, 0, &gSpriteClip );
 
                 //Update screen
