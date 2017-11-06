@@ -1,7 +1,6 @@
 Copyright Notice:
 -----------------
-The files within this zip file are copyrighted by Lazy Foo' Productions (2004-2015)
-and may not be redistributed without written permission.
+The files within this project are from many different sources so please check them before using for commercial purposes.
 
 This project is linked against:
 ----------------------------------------
