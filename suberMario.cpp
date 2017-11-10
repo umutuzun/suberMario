@@ -261,7 +261,8 @@ void close()
     SDL_Quit();
 }
 
-bool isgoingright = false;
+bool isGoingRight = false;
+bool isGoingLeft = false;
 
 int main( int argc, char* args[] )
 {
@@ -299,21 +300,31 @@ int main( int argc, char* args[] )
                         //Select surfaces based on key press
                         switch (e.key.keysym.sym) {
                             case SDLK_RIGHT:
-                                isgoingright=true;
+                                isGoingRight=true;
+                                break;
+                            case SDLK_LEFT:
+                                isGoingLeft=true;
                                 break;
                         }
                     } else if (e.type == SDL_KEYUP) {
                         //Select surfaces based on key press
                         switch (e.key.keysym.sym) {
                             case SDLK_RIGHT:
-                                isgoingright=false;
+                                isGoingRight=false;
+                                break;
+                            case SDLK_LEFT:
+                                isGoingLeft=false;
                                 break;
                         }
                     }
                 }
 
-                if(isgoingright) {
+                if(isGoingRight) {
                     CLIP_X += 1;
+                    setSpriteClip(CLIP_X);
+                }
+                if(isGoingLeft) {
+                    CLIP_X -= 1;
                     setSpriteClip(CLIP_X);
                 }
                 //Clear screen
