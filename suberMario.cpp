@@ -4,6 +4,17 @@
 #include <stdio.h>
 #include <string>
 
+//Key press surfaces constants
+enum KeyPressSurfaces
+{
+    KEY_PRESS_SURFACE_DEFAULT,
+    KEY_PRESS_SURFACE_UP,
+    KEY_PRESS_SURFACE_DOWN,
+    KEY_PRESS_SURFACE_LEFT,
+    KEY_PRESS_SURFACE_RIGHT,
+    KEY_PRESS_SURFACE_TOTAL
+};
+
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -212,12 +223,11 @@ bool init()
 void setSpriteClip(int x)
 {
     //Set sprite
-    gSpriteClip.x =   x-320;
-    //gSpriteClip.x =   0;
-    gSpriteClip.y = -250;
-    //gSpriteClip.y = 0;
+    gSpriteClip.x =   x;
+    gSpriteClip.y =   0;
     gSpriteClip.w = 640;
     gSpriteClip.h = 480;
+
 }
 
 bool loadMedia()
@@ -226,8 +236,7 @@ bool loadMedia()
     bool success = true;
 
     //Load sprite sheet texture
-    if( !gSpriteSheetTexture.loadFromFile( "../resources/images02/SuperMarioBros-World1-Area1.png" ) )
-    //if( !gSpriteSheetTexture.loadFromFile( "../resources/images/11.bmp" ) )
+    if( !gSpriteSheetTexture.loadFromFile( "../resources/images/11.bmp" ) )
     {
         printf( "Failed to load sprite sheet texture!\n" );
         success = false;
