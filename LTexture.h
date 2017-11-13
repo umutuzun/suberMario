@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include <string>
+#include "Constants.h"
 
 //Texture wrapper class
 class LTexture  {
@@ -25,13 +26,15 @@ public:
     void free();
 
     //Renders texture at given point
-    void render( int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip=NULL );
+    void render( int clipX, SDL_Renderer* gRenderer );
 
     //Gets image dimensions
     int getWidth();
     int getHeight();
 
 private:
+    SDL_Rect renderQuad;
+    SDL_Rect clipQuad;
     //The actual hardware texture
     SDL_Texture* mTexture;
 

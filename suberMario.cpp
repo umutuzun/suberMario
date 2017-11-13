@@ -8,7 +8,6 @@
 #include "WindowManager.h"
 
 //Scene sprite
-SDL_Rect gSpriteClip;
 LTexture gSpriteSheetTexture;
 
 class InputState {
@@ -49,14 +48,6 @@ public:
     }
 };
 
-void setSpriteClip(int x) {
-    //Set sprite
-    gSpriteClip.x =   x;
-    gSpriteClip.y =   0;
-    gSpriteClip.w = SCREEN_WIDTH;
-    gSpriteClip.h = SCREEN_HEIGHT;
-}
-
 bool loadMedia(SDL_Renderer* gRenderer)
 {
     //Loading success flag
@@ -68,7 +59,6 @@ bool loadMedia(SDL_Renderer* gRenderer)
         printf( "Failed to load sprite sheet texture!\n" );
         success = false;
     }
-    setSpriteClip(0);
     return success;
 }
 
@@ -77,14 +67,12 @@ void handleAction(InputState &inputState, int &clipX) {
         if (clipX < gSpriteSheetTexture.getWidth() - SCREEN_WIDTH) {
             clipX += 1;
         }
-        setSpriteClip(clipX);
     }
     if (inputState.isGoingLeft) {
         if (clipX > 0) {
             clipX -= 1;
         }
-        setSpriteClip(clipX);
-    }
+   }
 }
 
 int main( int argc, char* args[] )
@@ -122,7 +110,7 @@ int main( int argc, char* args[] )
                 SDL_RenderClear( windowManager.getGRenderer() );
 
                 //Render sprite
-                gSpriteSheetTexture.render( 0, 0, windowManager.getGRenderer(), &gSpriteClip );
+                gSpriteSheetTexture.render( clipX, windowManager.getGRenderer() );
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );

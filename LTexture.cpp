@@ -12,6 +12,11 @@ LTexture::LTexture()
     mTexture = NULL;
     mWidth = 0;
     mHeight = 0;
+    renderQuad.x= 0;
+    renderQuad.y = 0;
+    renderQuad.h = SCREEN_HEIGHT;
+    renderQuad.w = SCREEN_WIDTH;
+    clipQuad = renderQuad;
 }
 
 LTexture::~LTexture()
@@ -73,20 +78,11 @@ void LTexture::free()
     }
 }
 
-void LTexture::render( int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip )
+void LTexture::render( int clipX, SDL_Renderer* gRenderer )
 {
-    //Set rendering space and render to screen
-    SDL_Rect renderQuad = { x, y, mWidth, mHeight };
-
-    //Set clip rendering dimensions
-    if( clip != NULL )
-    {
-        renderQuad.w = clip->w;
-        renderQuad.h = clip->h;
-    }
-
+    clipQuad.x = clipX;
     //Render to screen
-    SDL_RenderCopy( gRenderer, mTexture, clip, &renderQuad );
+    SDL_RenderCopy( gRenderer, mTexture, &clipQuad, &renderQuad );
 }
 
 int LTexture::getWidth()
