@@ -10,6 +10,8 @@
 int CLIP_X = 0;
 bool isGoingRight = false;
 bool isGoingLeft = false;
+//Main loop flag
+bool quit = false;
 
 //Scene sprite
 SDL_Rect gSpriteClip;
@@ -36,10 +38,53 @@ bool loadMedia(SDL_Renderer* gRenderer)
         printf( "Failed to load sprite sheet texture!\n" );
         success = false;
     }
-    setSpriteClip(CLIP_X);
+    setSpriteClip(0);
     return success;
 }
 
+void handleEvent(SDL_Event &e){
+    //User requests quit
+    if (e.type == SDL_QUIT) {
+        quit = true;
+    }
+        //User presses a key
+    else if (e.type == SDL_KEYDOWN) {
+        //Select surfaces based on key press
+        switch (e.key.keysym.sym) {
+            case SDLK_RIGHT:
+                isGoingRight=true;
+                break;
+            case SDLK_LEFT:
+                isGoingLeft=true;
+                break;
+        }
+    } else if (e.type == SDL_KEYUP) {
+        //Select surfaces based on key press
+        switch (e.key.keysym.sym) {
+            case SDLK_RIGHT:
+                isGoingRight=false;
+                break;
+            case SDLK_LEFT:
+                isGoingLeft=false;
+                break;
+        }
+    }
+}
+
+void handleAction() {
+    if (isGoingRight) {
+        if (CLIP_X < gSpriteSheetTexture.getWidth() - SCREEN_WIDTH) {
+            CLIP_X += 1;
+        }
+        setSpriteClip(CLIP_X);
+    }
+    if (isGoingLeft) {
+        if (CLIP_X > 0) {
+            CLIP_X -= 1;
+        }
+        setSpriteClip(CLIP_X);
+    }
+}
 
 int main( int argc, char* args[] )
 {
@@ -58,9 +103,6 @@ int main( int argc, char* args[] )
         }
         else
         {
-            //Main loop flag
-            bool quit = false;
-
             //Event handler
             SDL_Event e;
 
@@ -69,46 +111,9 @@ int main( int argc, char* args[] )
             {
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 ) {
-                    //User requests quit
-                    if (e.type == SDL_QUIT) {
-                        quit = true;
-                    }
-                        //User presses a key
-                    else if (e.type == SDL_KEYDOWN) {
-                        //Select surfaces based on key press
-                        switch (e.key.keysym.sym) {
-                            case SDLK_RIGHT:
-                                isGoingRight=true;
-                                break;
-                            case SDLK_LEFT:
-                                isGoingLeft=true;
-                                break;
-                        }
-                    } else if (e.type == SDL_KEYUP) {
-                        //Select surfaces based on key press
-                        switch (e.key.keysym.sym) {
-                            case SDLK_RIGHT:
-                                isGoingRight=false;
-                                break;
-                            case SDLK_LEFT:
-                                isGoingLeft=false;
-                                break;
-                        }
-                    }
+                    handleEvent(e);
                 }
-
-                if(isGoingRight) {
-                    if(CLIP_X < gSpriteSheetTexture.getWidth() - 640) {
-                        CLIP_X += 1;
-                    }
-                    setSpriteClip(CLIP_X);
-                }
-                if(isGoingLeft) {
-                    if(CLIP_X>0) {
-                        CLIP_X -= 1;
-                    }
-                    setSpriteClip(CLIP_X);
-                }
+                handleAction();
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
@@ -122,9 +127,9 @@ int main( int argc, char* args[] )
         }
     }
 
-
     //Free loaded images
     gSpriteSheetTexture.free();
+
     //Free resources and close SDL
     windowManager.close();
 

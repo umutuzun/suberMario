@@ -19,7 +19,6 @@ class WindowManager {
     SDL_Window *gWindow = NULL;
 
 public:
-
     SDL_Renderer *getGRenderer() const {
         return gRenderer;
     }
