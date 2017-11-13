@@ -7,9 +7,6 @@
 #include "Constants.h"
 #include "WindowManager.h"
 
-//Scene sprite
-LTexture gSpriteSheetTexture;
-
 class InputState {
 public:
     bool isGoingRight = false;
@@ -80,6 +77,8 @@ int main( int argc, char* args[] )
     int clipX = 0;
     WindowManager windowManager;
     InputState inputState;
+    //Scene sprite
+    LTexture gSpriteSheetTexture;
     //Start up SDL and create window
     if( !windowManager.init() )
     {
