@@ -4,6 +4,8 @@
 
 #include "LTexture.h"
 
+using namespace std;
+
 LTexture::LTexture()
 {
     //Initialize
@@ -18,7 +20,7 @@ LTexture::~LTexture()
     free();
 }
 
-bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer )
+bool LTexture::loadFromFile(const string &path, SDL_Renderer* gRenderer )
 {
     //Get rid of preexisting texture
     free();
@@ -30,7 +32,7 @@ bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer )
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
     if( loadedSurface == NULL )
     {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+        cout << "Unable to load image "<<path.c_str() << "! SDL_image Error: " <<  IMG_GetError() << endl;
     }
     else
     {

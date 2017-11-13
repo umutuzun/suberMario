@@ -6,7 +6,7 @@
 #define SUBERMARIO_LTEXTURE_H
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdio.h>
+#include <iostream>
 #include <string>
 
 //Texture wrapper class
@@ -19,7 +19,7 @@ public:
     ~LTexture();
 
     //Loads image at specified path
-    bool loadFromFile( std::string path, SDL_Renderer* gRenderer );
+    bool loadFromFile(const std::string &path, SDL_Renderer* gRenderer );
 
     //Deallocates texture
     void free();
