@@ -4,11 +4,7 @@
 #include <stdio.h>
 #include <string>
 #include "LTexture.h"
-
-
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "Constants.h"
 
 int CLIP_X = 0;
 
