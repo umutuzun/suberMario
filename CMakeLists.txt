@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 set(SOURCE_FILES
-        suberMario.cpp LTexture.cpp LTexture.h Constants.h WindowManager.cpp WindowManager.h InputState.cpp InputState.h)
+        src/suberMario.cpp src/LTexture.cpp src/LTexture.h src/Constants.h src/WindowManager.cpp src/WindowManager.h src/InputState.cpp src/InputState.h)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_IMAGE REQUIRED)
