@@ -10,15 +10,15 @@ InputState::InputState(){
     quit = false;
 }
 
-void InputState::handleEvent(SDL_Event &e){
+void InputState::handleEvent(SDL_Event &event){
     //User requests quit
-    if (e.type == SDL_QUIT) {
+    if (event.type == SDL_QUIT) {
         quit = true;
     }
         //User presses a key
-    else if (e.type == SDL_KEYDOWN) {
+    else if (event.type == SDL_KEYDOWN) {
         //Select surfaces based on key press
-        switch (e.key.keysym.sym) {
+        switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
                 isGoingRight=true;
                 break;
@@ -26,9 +26,9 @@ void InputState::handleEvent(SDL_Event &e){
                 isGoingLeft=true;
                 break;
         }
-    } else if (e.type == SDL_KEYUP) {
+    } else if (event.type == SDL_KEYUP) {
         //Select surfaces based on key press
-        switch (e.key.keysym.sym) {
+        switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
                 isGoingRight=false;
                 break;

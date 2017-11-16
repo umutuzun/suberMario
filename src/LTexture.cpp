@@ -9,14 +9,14 @@ using namespace std;
 LTexture::LTexture()
 {
     //Initialize
-    mTexture = NULL;
-    mWidth = 0;
-    mHeight = 0;
-    renderQuad.x= 0;
-    renderQuad.y = 0;
-    renderQuad.h = SCREEN_HEIGHT;
-    renderQuad.w = SCREEN_WIDTH;
-    clipQuad = renderQuad;
+    imageTexture = NULL;
+    imageWidth = 0;
+    imageHeight = 0;
+    destinationRect.x= 0;
+    destinationRect.y = 0;
+    destinationRect.h = SCREEN_HEIGHT;
+    destinationRect.w = SCREEN_WIDTH;
+    sourceRect = destinationRect;
 }
 
 LTexture::~LTexture()
@@ -53,8 +53,8 @@ bool LTexture::loadFromFile(const string &path, SDL_Renderer* gRenderer )
         else
         {
             //Get image dimensions
-            mWidth = loadedSurface->w;
-            mHeight = loadedSurface->h;
+            imageWidth = loadedSurface->w;
+            imageHeight = loadedSurface->h;
         }
 
         //Get rid of old loaded surface
@@ -62,35 +62,35 @@ bool LTexture::loadFromFile(const string &path, SDL_Renderer* gRenderer )
     }
 
     //Return success
-    mTexture = newTexture;
-    return mTexture != NULL;
+    imageTexture = newTexture;
+    return imageTexture != NULL;
 }
 
 void LTexture::free()
 {
     //Free texture if it exists
-    if( mTexture != NULL )
+    if( imageTexture != NULL )
     {
-        SDL_DestroyTexture( mTexture );
-        mTexture = NULL;
-        mWidth = 0;
-        mHeight = 0;
+        SDL_DestroyTexture( imageTexture );
+        imageTexture = NULL;
+        imageWidth = 0;
+        imageHeight = 0;
     }
 }
 
-void LTexture::render( int clipX, SDL_Renderer* gRenderer )
+void LTexture::render( int sourceRectX, SDL_Renderer* gRenderer )
 {
-    clipQuad.x = clipX;
+    sourceRect.x = sourceRectX;
     //Render to screen
-    SDL_RenderCopy( gRenderer, mTexture, &clipQuad, &renderQuad );
+    SDL_RenderCopy( gRenderer, imageTexture, &sourceRect, &destinationRect );
 }
 
 int LTexture::getWidth()
 {
-    return mWidth;
+    return imageWidth;
 }
 
 int LTexture::getHeight()
 {
-    return mHeight;
+    return imageHeight;
 }

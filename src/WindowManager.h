@@ -14,13 +14,13 @@
 
 class WindowManager {
 //The window renderer
-    SDL_Renderer *gRenderer = NULL;
+    SDL_Renderer *gameRenderer = NULL;
 //The window we'll be rendering to
-    SDL_Window *gWindow = NULL;
+    SDL_Window *gameWindow = NULL;
 
 public:
     SDL_Renderer *getGRenderer() const {
-        return gRenderer;
+        return gameRenderer;
     }
     bool init();
     void close();

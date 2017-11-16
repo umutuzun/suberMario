@@ -11,7 +11,7 @@ public:
     //Initializes variables
     InputState();
     //Handles input
-    void handleEvent(SDL_Event &e);
+    void handleEvent(SDL_Event &event);
     bool isGoingRight;
     bool isGoingLeft;
     //Main loop flag

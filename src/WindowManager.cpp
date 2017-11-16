@@ -24,8 +24,8 @@ bool WindowManager::init()
         }
 
         //Create window
-        gWindow = SDL_CreateWindow( "Suber Mario", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( gWindow == NULL )
+        gameWindow = SDL_CreateWindow( "Suber Mario", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        if( gameWindow == NULL )
         {
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
             success = false;
@@ -33,8 +33,8 @@ bool WindowManager::init()
         else
         {
             //Create renderer for window
-            gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-            if( gRenderer == NULL )
+            gameRenderer = SDL_CreateRenderer( gameWindow, -1, SDL_RENDERER_ACCELERATED );
+            if( gameRenderer == NULL )
             {
                 printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
                 success = false;
@@ -42,7 +42,7 @@ bool WindowManager::init()
             else
             {
                 //Initialize renderer color
-                SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                SDL_SetRenderDrawColor( gameRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
                 //Initialize BMP loading
                 int imgFlags = IMG_INIT_PNG;
@@ -61,10 +61,10 @@ bool WindowManager::init()
 void WindowManager::close()
 {
     //Destroy window
-    SDL_DestroyRenderer( gRenderer );
-    SDL_DestroyWindow( gWindow );
-    gWindow = NULL;
-    gRenderer = NULL;
+    SDL_DestroyRenderer( gameRenderer );
+    SDL_DestroyWindow( gameWindow );
+    gameWindow = NULL;
+    gameRenderer = NULL;
 
     //Quit SDL subsystems
     IMG_Quit();

@@ -1,4 +1,3 @@
-//Using SDL, SDL_image, standard IO, and strings
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
@@ -8,9 +7,9 @@
 #include "WindowManager.h"
 #include "InputState.h"
 
-void handleAction(InputState &inputState, int &clipX, LTexture &gSpriteSheetTexture) {
+void handleAction(InputState &inputState, int &clipX, LTexture &gBackgroundTexture) {
     if (inputState.isGoingRight) {
-        if (clipX < gSpriteSheetTexture.getWidth() - SCREEN_WIDTH) {
+        if (clipX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
             clipX += 1;
         }
     }
@@ -27,7 +26,8 @@ int main( int argc, char* args[] )
     WindowManager windowManager;
     InputState inputState;
     //Scene sprite
-    LTexture gSpriteSheetTexture;
+    LTexture gBackgroundTexture;
+    LTexture gMarioTexture;
     //Start up SDL and create window
     if( !windowManager.init() )
     {
@@ -35,10 +35,15 @@ int main( int argc, char* args[] )
     }
     else
     {
-        //Load media
-        if( !gSpriteSheetTexture.loadFromFile( "../resources/images/11.bmp", windowManager.getGRenderer() ) )
+        //Load backgroundTexture
+        if( !gBackgroundTexture.loadFromFile( "../resources/images/11.bmp", windowManager.getGRenderer() ) )
         {
-            printf( "Failed to load sprite sheet texture!\n" );
+            printf( "Failed to load background texture!\n" );
+        }
+        else
+        {
+        if(!gMarioTexture.loadFromFile("../resources/images/mario/mario.bmp", windowManager.getGRenderer())) {
+            printf( "Failed to load mario texture!\n" );
         }
         else
         {
@@ -52,22 +57,26 @@ int main( int argc, char* args[] )
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
                 }
-                handleAction(inputState, clipX, gSpriteSheetTexture);
+                handleAction(inputState, clipX, gBackgroundTexture);
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
 
-                //Render sprite
-                gSpriteSheetTexture.render( clipX, windowManager.getGRenderer() );
+                //Render background
+                gBackgroundTexture.render( clipX, windowManager.getGRenderer() );
+
+                //Render Mario
+                //gMarioTexture.render( clipX, windowManager.getGRenderer());
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
             }
         }
     }
+    }
 
     //Free loaded images
-    gSpriteSheetTexture.free();
+    gBackgroundTexture.free();
 
     //Free resources and close SDL
     windowManager.close();

@@ -26,21 +26,21 @@ public:
     void free();
 
     //Renders texture at given point
-    void render( int clipX, SDL_Renderer* gRenderer );
+    void render( int sourceRectX, SDL_Renderer* gRenderer );
 
     //Gets image dimensions
     int getWidth();
     int getHeight();
 
 private:
-    SDL_Rect renderQuad;
-    SDL_Rect clipQuad;
+    SDL_Rect destinationRect;
+    SDL_Rect sourceRect;
     //The actual hardware texture
-    SDL_Texture* mTexture;
+    SDL_Texture* imageTexture;
 
     //Image dimensions
-    int mWidth;
-    int mHeight;
+    int imageWidth;
+    int imageHeight;
 };
 
 #endif //SUBERMARIO_LTEXTURE_H
