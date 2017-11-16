@@ -45,21 +45,7 @@ public:
     }
 };
 
-bool loadMedia(SDL_Renderer* gRenderer)
-{
-    //Loading success flag
-    bool success = true;
-
-    //Load sprite sheet texture
-    if( !gSpriteSheetTexture.loadFromFile( "../resources/images/11.bmp", gRenderer ) )
-    {
-        printf( "Failed to load sprite sheet texture!\n" );
-        success = false;
-    }
-    return success;
-}
-
-void handleAction(InputState &inputState, int &clipX) {
+void handleAction(InputState &inputState, int &clipX, LTexture &gSpriteSheetTexture) {
     if (inputState.isGoingRight) {
         if (clipX < gSpriteSheetTexture.getWidth() - SCREEN_WIDTH) {
             clipX += 1;
@@ -87,9 +73,9 @@ int main( int argc, char* args[] )
     else
     {
         //Load media
-        if( !loadMedia(windowManager.getGRenderer()) )
+        if( !gSpriteSheetTexture.loadFromFile( "../resources/images/11.bmp", windowManager.getGRenderer() ) )
         {
-            printf( "Failed to load media!\n" );
+            printf( "Failed to load sprite sheet texture!\n" );
         }
         else
         {
@@ -103,7 +89,7 @@ int main( int argc, char* args[] )
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
                 }
-                handleAction(inputState, clipX);
+                handleAction(inputState, clipX, gSpriteSheetTexture);
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
