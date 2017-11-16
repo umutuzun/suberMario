@@ -20,7 +20,7 @@ public:
     ~LTexture();
 
     //Loads image at specified path
-    bool loadFromFile(const std::string &path, SDL_Renderer* gRenderer );
+    bool loadFromFile( const std::string &path, SDL_Renderer* gRenderer );
 
     //Deallocates texture
     void free();

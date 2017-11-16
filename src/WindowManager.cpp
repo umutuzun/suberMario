@@ -18,9 +18,9 @@ bool WindowManager::init()
     else
     {
         //Set texture filtering to linear
-        if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+        if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" ) )
         {
-            printf( "Warning: Linear texture filtering not enabled!" );
+            printf( "Warning: Nearest pixel filtering not enabled!" );
         }
 
         //Create window

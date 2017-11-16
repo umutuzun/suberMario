@@ -42,7 +42,7 @@ int main( int argc, char* args[] )
         }
         else
         {
-        if(!gMarioTexture.loadFromFile("../resources/images/mario/mario.bmp", windowManager.getGRenderer())) {
+        if(!gMarioTexture.loadFromFile( "../resources/images/mario/mario.bmp", windowManager.getGRenderer() )) {
             printf( "Failed to load mario texture!\n" );
         }
         else
@@ -66,7 +66,7 @@ int main( int argc, char* args[] )
                 gBackgroundTexture.render( clipX, windowManager.getGRenderer() );
 
                 //Render Mario
-                //gMarioTexture.render( clipX, windowManager.getGRenderer());
+                gMarioTexture.render( clipX, windowManager.getGRenderer());
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
