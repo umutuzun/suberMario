@@ -6,44 +6,7 @@
 #include "LTexture.h"
 #include "Constants.h"
 #include "WindowManager.h"
-
-class InputState {
-public:
-    bool isGoingRight = false;
-    bool isGoingLeft = false;
-    //Main loop flag
-    bool quit = false;
-
-
-    void handleEvent(SDL_Event &e){
-        //User requests quit
-        if (e.type == SDL_QUIT) {
-            quit = true;
-        }
-            //User presses a key
-        else if (e.type == SDL_KEYDOWN) {
-            //Select surfaces based on key press
-            switch (e.key.keysym.sym) {
-                case SDLK_RIGHT:
-                    isGoingRight=true;
-                    break;
-                case SDLK_LEFT:
-                    isGoingLeft=true;
-                    break;
-            }
-        } else if (e.type == SDL_KEYUP) {
-            //Select surfaces based on key press
-            switch (e.key.keysym.sym) {
-                case SDLK_RIGHT:
-                    isGoingRight=false;
-                    break;
-                case SDLK_LEFT:
-                    isGoingLeft=false;
-                    break;
-            }
-        }
-    }
-};
+#include "InputState.h"
 
 void handleAction(InputState &inputState, int &clipX, LTexture &gSpriteSheetTexture) {
     if (inputState.isGoingRight) {
