@@ -63,10 +63,10 @@ int main( int argc, char* args[] )
                 SDL_RenderClear( windowManager.getGRenderer() );
 
                 //Render background
-                gBackgroundTexture.render( clipX, windowManager.getGRenderer() );
+                gBackgroundTexture.render( clipX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer() );
 
                 //Render Mario
-                gMarioTexture.render( clipX, windowManager.getGRenderer());
+                gMarioTexture.render( 0, 0, gMarioTexture.getHeight(), gMarioTexture.getWidth(), 30, 385, gMarioTexture.getHeight(), gMarioTexture.getWidth(), windowManager.getGRenderer() );
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
