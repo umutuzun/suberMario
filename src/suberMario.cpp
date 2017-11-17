@@ -7,27 +7,35 @@
 #include "WindowManager.h"
 #include "InputState.h"
 
-void handleAction(InputState &inputState, int &clipX, LTexture &gBackgroundTexture) {
+int marioFrame = 0;
+
+void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroundTexture) {
     if (inputState.isGoingRight) {
-        if (clipX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
-            clipX += 1;
+        if (sourceRectX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
+            sourceRectX += 1;
+            marioFrame += 1;
+            if (marioFrame / 3 >= 3){
+                marioFrame = 1;
+            }
+
         }
     }
     if (inputState.isGoingLeft) {
-        if (clipX > 0) {
-            clipX -= 1;
+        if (sourceRectX > 0) {
+            sourceRectX -= 1;
         }
    }
 }
 
 int main( int argc, char* args[] )
 {
-    int clipX = 0;
+    int sourceRectX = 0;
     WindowManager windowManager;
     InputState inputState;
     //Scene sprite
     LTexture gBackgroundTexture;
     LTexture gMarioTexture;
+    LTexture gMarioAnimTextures[3];
     //Start up SDL and create window
     if( !windowManager.init() )
     {
@@ -42,8 +50,11 @@ int main( int argc, char* args[] )
         }
         else
         {
-        if(!gMarioTexture.loadFromFile( "../resources/images/mario/mario.bmp", windowManager.getGRenderer() )) {
-            printf( "Failed to load mario texture!\n" );
+        if(!gMarioAnimTextures[0].loadFromFile( "../resources/images/mario/mario.bmp", windowManager.getGRenderer() ) ||
+                !gMarioAnimTextures[1].loadFromFile( "../resources/images/mario/mario_move0.bmp", windowManager.getGRenderer() ) ||
+                !gMarioAnimTextures[2].loadFromFile( "../resources/images/mario/mario_move1.bmp", windowManager.getGRenderer() ) ||
+                !gMarioAnimTextures[3].loadFromFile( "../resources/images/mario/mario_move2.bmp", windowManager.getGRenderer() ) ){
+            printf( "Failed to load mario textures!\n" );
         }
         else
         {
@@ -53,20 +64,22 @@ int main( int argc, char* args[] )
             //While application is running
             while( !inputState.quit )
             {
+                marioFrame = 0;
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
                 }
-                handleAction(inputState, clipX, gBackgroundTexture);
+                handleAction(inputState, sourceRectX, gBackgroundTexture);
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
 
                 //Render background
-                gBackgroundTexture.render( clipX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer() );
+                gBackgroundTexture.render( sourceRectX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer() );
 
                 //Render Mario
-                gMarioTexture.render( 0, 0, gMarioTexture.getHeight(), gMarioTexture.getWidth(), 30, 385, gMarioTexture.getHeight(), gMarioTexture.getWidth(), windowManager.getGRenderer() );
+                gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
+
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
