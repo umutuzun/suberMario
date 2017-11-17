@@ -13,14 +13,14 @@ void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroun
     if (inputState.isGoingRight) {
         if (sourceRectX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
             time = (time / (1000/10));
-            sourceRectX += 1;
+            sourceRectX += 5;
             marioFrame = time % 3;
             marioFrame++;
         }
     }
     if (inputState.isGoingLeft) {
         if (sourceRectX > 0) {
-            sourceRectX -= 1;
+            sourceRectX -= 5;
         }
    }
 }
@@ -59,15 +59,21 @@ int main( int argc, char* args[] )
             //Event handler
             SDL_Event e;
             marioFrame = 0;
+            long previousTime = 0;
+            long time = SDL_GetTicks();
             //While application is running
-            while( !inputState.quit )
-            {
-                long time = SDL_GetTicks();
+            while( !inputState.quit ) {
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
+
                 }
-                handleAction(inputState, sourceRectX, gBackgroundTexture, time);
+                if (time - previousTime > 16){
+                    for(int i = 0; i < (time-previousTime)/16; i++) {
+                        handleAction(inputState, sourceRectX, gBackgroundTexture, time);
+                    }
+                    previousTime = time;
+                }
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
@@ -81,6 +87,8 @@ int main( int argc, char* args[] )
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
+
+                time = SDL_GetTicks();
             }
         }
     }
