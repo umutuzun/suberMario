@@ -9,15 +9,15 @@
 
 int marioFrame = 0;
 
-void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroundTexture) {
+void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroundTexture, long time) {
     if (inputState.isGoingRight) {
         if (sourceRectX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
+            time = (time / (1000/10));
+            sourceRectX = time % 3;
             sourceRectX += 1;
-            marioFrame += 1;
-            if (marioFrame / 3 >= 3){
-                marioFrame = 1;
-            }
 
+            marioFrame = time % 3;
+            marioFrame++;
         }
     }
     if (inputState.isGoingLeft) {
@@ -60,16 +60,16 @@ int main( int argc, char* args[] )
         {
             //Event handler
             SDL_Event e;
-
+            marioFrame = 0;
             //While application is running
             while( !inputState.quit )
             {
-                marioFrame = 0;
+                long time = SDL_GetTicks();
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
                 }
-                handleAction(inputState, sourceRectX, gBackgroundTexture);
+                handleAction(inputState, sourceRectX, gBackgroundTexture, time);
                 //Clear screen
                 SDL_SetRenderDrawColor( windowManager.getGRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
                 SDL_RenderClear( windowManager.getGRenderer() );
