@@ -13,9 +13,7 @@ void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroun
     if (inputState.isGoingRight) {
         if (sourceRectX < gBackgroundTexture.getWidth() - SCREEN_WIDTH) {
             time = (time / (1000/10));
-            sourceRectX = time % 3;
             sourceRectX += 1;
-
             marioFrame = time % 3;
             marioFrame++;
         }
