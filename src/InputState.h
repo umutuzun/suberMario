@@ -14,6 +14,8 @@ public:
     void handleEvent(SDL_Event &event);
     bool isGoingRight;
     bool isGoingLeft;
+    bool isKeyUp;
+    bool isLookingLeft;
     //Main loop flag
     bool quit;
 };

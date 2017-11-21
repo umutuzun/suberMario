@@ -26,6 +26,9 @@ void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroun
             marioFrame++;
         }
    }
+    if (inputState.isKeyUp) {
+        marioFrame = 0;
+    }
 }
 
 int main( int argc, char* args[] )
@@ -69,7 +72,6 @@ int main( int argc, char* args[] )
                 //Handle events on queue
                 while( SDL_PollEvent( &e ) != 0 ) {
                     inputState.handleEvent(e);
-
                 }
                 if (time - previousTime > 16){
                     for(int i = 0; i < (time-previousTime)/16; i++) {
@@ -82,13 +84,16 @@ int main( int argc, char* args[] )
                 SDL_RenderClear( windowManager.getGRenderer() );
 
                 //Render background
-                gBackgroundTexture.render( sourceRectX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer() );
+                gBackgroundTexture.render( sourceRectX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer(), false );
 
                 //Render Mario
-                if ( inputState.isGoingLeft) {
-                    gMarioAnimTextures[marioFrame].renderCopyEx( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
+                if ( inputState.isGoingLeft || inputState.isLookingLeft) {
+                    gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385,
+                                                           gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer(),
+                                                           true);
                 } else {
-                    gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
+                    gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385,
+                                                           gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer(), false );
                 }
 
                 //Update screen

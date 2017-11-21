@@ -79,7 +79,7 @@ void LTexture::free()
 }
 
 void LTexture::render( int sourceRectX, int sourceRectY, int sourceRectH, int sourceRectW, int destinationRectX,
-                       int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer )
+                       int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer, bool flip )
 {
     sourceRect.x = sourceRectX;
     sourceRect.y = sourceRectY;
@@ -92,25 +92,12 @@ void LTexture::render( int sourceRectX, int sourceRectY, int sourceRectH, int so
     destinationRect.w = destinationRectW;
 
     //Render to screen
-    SDL_RenderCopy( gRenderer, imageTexture, &sourceRect, &destinationRect );
-
-}
-
-void LTexture::renderCopyEx( int sourceRectX, int sourceRectY, int sourceRectH, int sourceRectW, int destinationRectX,
-                       int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer )
-{
-    sourceRect.x = sourceRectX;
-    sourceRect.y = sourceRectY;
-    sourceRect.h = sourceRectH;
-    sourceRect.w = sourceRectW;
-
-    destinationRect.x = destinationRectX;
-    destinationRect.y = destinationRectY;
-    destinationRect.h = destinationRectH;
-    destinationRect.w = destinationRectW;
-
-    //Render to screen
-    SDL_RenderCopyEx( gRenderer, imageTexture, &sourceRect, &destinationRect, NULL, NULL, SDL_FLIP_HORIZONTAL );
+    if ( flip ){
+        SDL_RenderCopyEx( gRenderer, imageTexture, &sourceRect, &destinationRect, NULL, NULL, SDL_FLIP_HORIZONTAL );
+    }
+    else {
+        SDL_RenderCopy( gRenderer, imageTexture, &sourceRect, &destinationRect);
+    }
 
 }
 

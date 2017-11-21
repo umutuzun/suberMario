@@ -7,6 +7,8 @@
 InputState::InputState(){
     isGoingRight = false;
     isGoingLeft = false;
+    isLookingLeft = false;
+    isKeyUp = true;
     quit = false;
 }
 
@@ -20,20 +22,26 @@ void InputState::handleEvent(SDL_Event &event){
         //Select surfaces based on key press
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
-                isGoingRight=true;
+                isGoingRight = true;
+                isKeyUp = false;
+                isLookingLeft = false;
                 break;
             case SDLK_LEFT:
-                isGoingLeft=true;
+                isGoingLeft = true;
+                isLookingLeft = true;
+                isKeyUp = false;
                 break;
         }
     } else if (event.type == SDL_KEYUP) {
         //Select surfaces based on key press
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
-                isGoingRight=false;
+                isGoingRight = false;
+                isKeyUp = true;
                 break;
             case SDLK_LEFT:
-                isGoingLeft=false;
+                isGoingLeft = false;
+                isKeyUp = true;
                 break;
         }
     }
