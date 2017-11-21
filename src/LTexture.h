@@ -27,6 +27,7 @@ public:
 
     //Renders texture at given point
     void render( int sourceRectX, int sourceRectY, int sourceRectH, int sourceRectW, int destinationRectX, int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer );
+    void renderCopyEx( int sourceRectX, int sourceRectY, int sourceRectH, int sourceRectW, int destinationRectX, int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer );
 
     //Gets image dimensions
     int getWidth();

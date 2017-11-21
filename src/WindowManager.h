@@ -17,6 +17,7 @@ class WindowManager {
     SDL_Renderer *gameRenderer = NULL;
 //The window we'll be rendering to
     SDL_Window *gameWindow = NULL;
+    SDL_RendererFlip flip = SDL_FLIP_VERTICAL;
 
 public:
     SDL_Renderer *getGRenderer() const {

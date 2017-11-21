@@ -96,6 +96,24 @@ void LTexture::render( int sourceRectX, int sourceRectY, int sourceRectH, int so
 
 }
 
+void LTexture::renderCopyEx( int sourceRectX, int sourceRectY, int sourceRectH, int sourceRectW, int destinationRectX,
+                       int destinationRectY, int destinationRectH, int destinationRectW, SDL_Renderer* gRenderer )
+{
+    sourceRect.x = sourceRectX;
+    sourceRect.y = sourceRectY;
+    sourceRect.h = sourceRectH;
+    sourceRect.w = sourceRectW;
+
+    destinationRect.x = destinationRectX;
+    destinationRect.y = destinationRectY;
+    destinationRect.h = destinationRectH;
+    destinationRect.w = destinationRectW;
+
+    //Render to screen
+    SDL_RenderCopyEx( gRenderer, imageTexture, &sourceRect, &destinationRect, NULL, NULL, SDL_FLIP_HORIZONTAL );
+
+}
+
 int LTexture::getWidth()
 {
     return imageWidth;

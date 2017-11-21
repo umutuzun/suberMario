@@ -21,6 +21,9 @@ void handleAction(InputState &inputState, int &sourceRectX, LTexture &gBackgroun
     if (inputState.isGoingLeft) {
         if (sourceRectX > 0) {
             sourceRectX -= 5;
+            time = (time / (1000/10));
+            marioFrame = time % 3;
+            marioFrame++;
         }
    }
 }
@@ -82,8 +85,11 @@ int main( int argc, char* args[] )
                 gBackgroundTexture.render( sourceRectX, 0, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, windowManager.getGRenderer() );
 
                 //Render Mario
-                gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
-
+                if ( inputState.isGoingLeft) {
+                    gMarioAnimTextures[marioFrame].renderCopyEx( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
+                } else {
+                    gMarioAnimTextures[marioFrame].render( 0, 0, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), 30, 385, gMarioAnimTextures[marioFrame].getHeight(), gMarioAnimTextures[marioFrame].getWidth(), windowManager.getGRenderer() );
+                }
 
                 //Update screen
                 SDL_RenderPresent( windowManager.getGRenderer() );
